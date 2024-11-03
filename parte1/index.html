@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nine Men's Morris</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="logo-div">
+        <img src="nine-mens-morris-game.jpg" alt="" id="logo-img">
+    </div>
+
+    <div id="login-div">
+        <form action="" id="login-info">
+            <input type="text" id="username-input" placeholder="Username:">
+            <input type="text" id="password-input" placeholder="Password">
+        </form>
+
+    </div>
+
+    <div id="main-container">
+        <button id="teste" onclick="start_game()">
+            Hello
+        </button>
+        <div id="outside-board">
+            <div id="outside-cell-1" class="corner" onclick="add_piece(this.id, this.className)" >
+                <div class="cell" id="corner-1" onclick="teste(this.id)"></div>
+            </div>
+            <div id="outside-cell-2" class="side" onclick="add_piece(this.id, this.className)">
+                <div class="cell"></div>
+            </div>
+            <div id="outside-cell-3" class="corner" onclick="add_piece(this.id, this.className)">
+                <div class="cell"></div>
+            </div>
+            <div id="outside-cell-4" class="side" onclick="add_piece(this.id, this.className)">
+                <div class="cell"></div>
+            </div>
+            <div id="outside-container" class="outside-cell">
+                <div id="middle-cell-1" class="corner" onclick="add_piece(this.id, this.className)">
+                    <div class="cell"></div>
+                </div>
+                <div id="middle-cell-2" class="side" onclick="add_piece(this.id, this.className)">
+                    <div class="cell"></div>
+                </div>
+                <div id="middle-cell-3" class="corner" onclick="add_piece(this.id, this.className)">
+                    <div class="cell"></div>
+                </div>
+                <div id="middle-cell-4" class="side" onclick="add_piece(this.id, this.className)">
+                    <div class="cell"></div>
+                </div>
+                <div id="middle-container" class="middle-cell">
+                    <div id="center-cell-1" class="side" onclick="add_piece(this.id, this.className)">
+                        <div class="cell"></div>
+                    </div>
+                    <div id="center-cell-2" class="side" onclick="add_piece(this.id, this.className)">
+                        <div class="cell"></div>
+                    </div>
+                    <div id="center-cell-3" class="corner" onclick="add_piece(this.id, this.className)">
+                        <div class="cell"></div>
+                    </div>
+                    <div id="center-cell-4" class="side" onclick="add_piece(this.id, this.className)">
+                        <div class="cell"></div>
+                    </div>
+                    <div id="center-cell-5" class="side" onclick="add_piece(this.id, this.className)">
+
+                    </div>
+                    <div id="center-cell-6" class="side" onclick="add_piece(this.id, this.className)">
+                        <div class="cell"></div>
+                    </div>
+                    <div id="center-cell-7" class="side" onclick="add_piece(this.id, this.className)">
+                        <div class="cell"></div>
+                    </div>
+                    <div id="center-cell-8" class="side" onclick="add_piece(this.id, this.className)">
+                        <div class="cell"></div>
+                    </div>
+                    <div id="center-cell-9" class="corner" onclick="add_piece(this.id, this.className)">
+                        <div class="cell"></div>
+                    </div>
+                </div>
+                <div id="middle-cell-6" class="side" onclick="add_piece(this.id, this.className)">
+                    <div class="cell"></div></div>
+                <div id="middle-cell-7" class="corner" onclick="add_piece(this.id, this.className)">
+                    <div class="cell"></div></div>
+                <div id="middle-cell-8" class="side" onclick="add_piece(this.id, this.className)">
+                    <div class="cell"></div></div>
+                <div id="middle-cell-9" class="corner" onclick="add_piece(this.id, this.className)">
+                    <div class="cell"></div></div>
+            </div>
+            <div id="outside-cell-6" class="side" onclick="add_piece(this.id, this.className)">
+                <div class="cell"></div></div>
+            <div id="outside-cell-7" class="corner" onclick="add_piece(this.id, this.className)">
+                <div class="cell"></div></div>
+            <div id="outside-cell-8" class="side" onclick="add_piece(this.id, this.className)">
+                <div class="cell"></div></div>
+            <div id="outside-cell-9" class="corner" onclick="add_piece(this.id, this.className)">
+                <div class="cell"></div></div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
