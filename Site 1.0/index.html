@@ -1,0 +1,65 @@
+<html>
+<head>
+    <style>
+    body {
+        background-image: url('backgroundwood.jpg');
+        background-size: cover;  /* Scales the image to cover the entire screen */
+        background-position: center;  /* Centers the image */
+        background-repeat: no-repeat; /* Prevents the image from tiling */
+    }</style>
+    
+    <title>
+        Trilhas
+    </title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Tiny5&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <img class="logo" src="Trilha.jpg" />
+    <img class="desfoque" src="black.png" />
+    <img class="desfoquehor" src="black.png" />
+    <h1>.</h1>
+    <button class="info" value="2" id="howToPlay" onclick="getInfo()">Descrição</button>
+    <button class="info" value="3" id="rules" onclick="getInfo()">Regras</button>
+    <h2>Classificação</h2>
+
+
+    <div class="gameoption">
+        <label for="opcaojogo" class="opcao">Opções de Jogo:</label>
+            <select id="opcaojogo">
+                <option >1 vs 1</option>
+                <option >1 vs AI</option>
+            </select>
+    </div>
+
+    <div class="board">
+    <label for="tamanho" class="tamanho">Tamanho do Tabuleiro:</label>
+        <input type="number" value="3" id="tamanho" min="1">
+    </div>
+
+    
+    <div class="AIDificult">
+    <label for="opcaojogo" class="dificuldade">Dificuldade da AI:</label>
+        <select id="opcaojogo">
+            <option >1</option>
+            <option >2</option>
+            <option >3</option>
+        </select>
+    </div>
+
+    <div class="User">
+    <label for="Username" class="Username" >Username:</label>
+        <input type="text" id="Username" maxlength="16">
+    </div>
+
+    
+    <div class="Pass">
+    <label for="Password" class="Password">Password:</label>
+        <input type="password" id="Password">
+    </div>
+
+    <script src="index.js"></script>
+</body>    
+</html>
