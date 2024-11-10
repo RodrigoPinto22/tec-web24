@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilhas</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Tiny5&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <img class="logo" src="Trilha.jpg">
+    <img class="desfoque" src="black.png">
+    <img class="desfoquehor" src="black.png">
+    <h1>.</h1>
+    <button class="info" value="2" id="howToPlay" onclick="getInfo(event)">Descrição</button>
+    <button class="info" value="3" id="rules" onclick="getInfo(event)">Regras</button>
+    <button class="Class" value="4" onclick="classificacao(event,items)">Classificação</button>
+
+
+    <div class="gameoption">
+        <label for="opcaojogo" class="opcao">Opções de Jogo:</label>
+            <select id="opcaojogo">
+                <option >1 vs 1</option>
+                <option >1 vs AI</option>
+            </select>
+    </div>
+
+    <div class="board">
+    <label for="tamanho" class="tamanho">Tamanho do Tabuleiro:</label>
+        <input type="number" value="3" id="tamanho" min="1">
+    </div>
+
+    
+    <div class="AIDificult">
+    <label for="opcaojogo" class="dificuldade">Dificuldade da AI:</label>
+        <select id="opcaojogo">
+            <option >1</option>
+            <option >2</option>
+            <option >3</option>
+        </select>
+    </div>
+
+    <div class="User">
+    <label for="Username" class="Username" >Username:</label>
+        <input type="text" id="Username" maxlength="16">
+    </div>
+    
+    <div class="Pass">
+    <label for="Password" class="Password">Password:</label>
+        <input type="password" id="Password">
+    </div>
+
+    <div class="primeirajogada">
+        <label for="primeiro" class="primeiro">Quem é o primeiro a jogar?</label>
+        <select id="primeiro" required>
+            <option value="" selected disabled></option>
+            <option class="laranja" value="laranja">laranja</option>
+            <option class="azul" value="azul">azul</option>
+        </select>
+    </div>
+
+    <div id="main-container">
+        <button id="teste" onclick="start_game()">
+            Start Game
+        </button>
+        <div id="outside-board">
+            <div id="outside-cell-1" class="corner" >
+                <div class="cell"></div>
+            </div>
+            <div id="outside-cell-2" class="side">
+                <div class="cell"></div>
+            </div>
+            <div id="outside-cell-3" class="corner">
+                <div class="cell"></div>
+            </div>
+            <div id="outside-cell-4" class="side">
+                <div class="cell"></div>
+            </div>
+            <div id="outside-container" class="outside-cell">
+                <div id="middle-cell-1" class="corner">
+                    <div class="cell"></div>
+                </div>
+                <div id="middle-cell-2" class="side">
+                    <div class="cell"></div>
+                </div>
+                <div id="middle-cell-3" class="corner">
+                    <div class="cell"></div>
+                </div>
+                <div id="middle-cell-4" class="side">
+                    <div class="cell"></div>
+                </div>
+                <div id="middle-container" class="middle-cell">
+                    <div id="center-cell-1" class="corner">
+                        <div class="cell"></div>
+                    </div>
+                    <div id="center-cell-2" class="side">
+                        <div class="cell"></div>
+                    </div>
+                    <div id="center-cell-3" class="corner">
+                        <div class="cell"></div>
+                    </div>
+                    <div id="center-cell-4" class="side">
+                        <div class="cell"></div>
+                    </div>
+                    <div id="center-cell-5" class="side">
+
+                    </div>
+                    <div id="center-cell-6" class="side">
+                        <div class="cell"></div>
+                    </div>
+                    <div id="center-cell-7" class="corner">
+                        <div class="cell"></div>
+                    </div>
+                    <div id="center-cell-8" class="side">
+                        <div class="cell"></div>
+                    </div>
+                    <div id="center-cell-9" class="corner">
+                        <div class="cell"></div>
+                    </div>
+                </div>
+                <div id="middle-cell-6" class="side">
+                    <div class="cell"></div></div>
+                <div id="middle-cell-7" class="corner">
+                    <div class="cell"></div></div>
+                <div id="middle-cell-8" class="side">
+                    <div class="cell"></div></div>
+                <div id="middle-cell-9" class="corner">
+                    <div class="cell"></div></div>
+            </div>
+            <div id="outside-cell-6" class="side">
+                <div class="cell"></div></div>
+            <div id="outside-cell-7" class="corner">
+                <div class="cell"></div></div>
+            <div id="outside-cell-8" class="side">
+                <div class="cell"></div></div>
+            <div id="outside-cell-9" class="corner">
+                <div class="cell"></div></div>
+        </div>
+    </div>
+
+
+    <script src="index.js"></script>
+</body>    
+</html>

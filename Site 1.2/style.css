@@ -1,0 +1,396 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-image: url('backgroundwood.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+}
+
+#main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+}
+
+#outside-board {
+    background: url('wood-texture.jpg') no-repeat center center;
+    background-size: cover;
+    border: solid 5px #8B4513;
+    border-radius: 15px;
+    height: 55vh;
+    width: 55vh;
+    display: grid;
+    grid-template-columns: 15% 1fr 15%;
+    grid-template-rows: 15% 1fr 15%;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.7);
+}
+
+
+.corner, .side {
+    background-color: rgba(250, 235, 215, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cell {
+    position: relative; /* Allows precise placement of pieces */
+    border: solid 1px #8B4513;
+    border-radius: 50%;
+    height: 30px; /* Increase size to better match piece */
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
+
+.piece {
+    background-color: #8B0000;
+    border-radius: 50%;
+    height: 35px; /* Slightly smaller than cell to fit inside */
+    width: 35px;
+    position: absolute; /* Aligns to center of .cell */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centers the piece in the cell */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+
+#outside-container, #middle-container {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: 15% 1fr 15%;
+    grid-template-rows: 15% 1fr 15%;
+}
+
+
+
+
+
+h1 {
+    margin-bottom: 140px;
+}
+
+h2,button {
+    color:white;
+    font-size:22px;
+    font-family:'Tiny5',sans-serif;
+    font-style:normal;
+    font-weight: 400;
+    position:relative;
+    z-index: 3;
+    text-transform: uppercase;
+    margin-top:50px;
+    margin-left: 5px;
+
+}
+
+.info{
+    background: none;
+    border:none;
+    display: block;
+    cursor: pointer;
+}
+.Class{
+    background: none;
+    border:none;
+    display: block;
+    cursor: pointer;
+}
+.logo {
+    width: 170px;
+    height: 140px;
+    margin:0;
+    padding:0;
+    position: absolute;
+    z-index:4;
+}
+
+.desfoque{
+    width:170px;
+    height:1000px;
+    opacity: 0.5;
+    position:fixed;
+    margin-left:0;
+    z-index: 1;
+}
+
+.desfoquehor {
+    width:2000px;
+    height:140px;
+    opacity: 0.5;
+    position:fixed;
+    margin-left:0;
+    z-index: 1;
+}
+
+.overlayContent {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    background-size: 100% 100%;
+    background-color: black;
+    color:white;
+    
+    height: 800px;
+    width: 800px;
+    z-index:6;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index:6;
+}
+
+.closeButton {
+    position: absolute;
+    font-family: sans-serif;
+    background-color: transparent;
+    top: 10px;
+    right: 10px;
+    border: 0px;
+    cursor: pointer;
+}
+
+.title {
+    text-align: center;
+    font-size: 30px;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+.listItem {
+    margin-top: 25px;
+    font-size: 26px;
+    margin-left: 5px;
+    margin-right: 40px ;
+    list-style-type: none;
+    text-align: justify;
+    z-index:6;
+}
+
+.gameoption {
+    display: flex;
+    align-items: center;
+    position:absolute;
+    top:90px;
+    left:240px;
+}
+
+.opcao {
+    padding:0;
+    font-size:22px;
+    color:white;
+    z-index: 3;
+    text-transform: uppercase;
+    font-family:'Tiny5',sans-serif;
+    display: inline-flex;
+}
+#opcaojogo {
+    padding: 5px;
+    margin: 5px 0;
+    background-color:transparent;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    border:1px solid white;
+    z-index:3;
+    font-size:22px;
+    text-transform: uppercase;
+    font-family:'Tiny5',sans-serif;
+    appearance: none;
+    display: inline-flex;
+    margin-left: 5px;
+}
+#opcaojogo option {
+    padding: 5px;
+    background-color:black;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    border:1px solid white;
+    z-index:3;
+    text-transform: uppercase;
+    font-family:'Tiny5',sans-serif;
+}
+
+
+.board{
+    display: flex;
+    align-items: center;
+    position:absolute;
+    top:90px;
+    left:570px;
+}
+.tamanho{
+    padding:0;
+    font-size:22px;
+    color:white;
+    z-index: 3;
+    text-transform: uppercase;
+    font-family:'Tiny5',sans-serif;
+    appearance: none;
+    
+}
+#tamanho{
+    padding: 5px;
+    margin: 5px 0;
+    background-color:transparent;
+    color: white;
+    text-align: left;
+    cursor: pointer;
+    border-radius:5px;
+    z-index:3;
+    text-transform: uppercase;
+    font-family:'Tiny5',sans-serif;
+    border:1px solid white;
+    font-size:22px;
+    width: 100px;
+    margin-left: 5px;
+}
+
+.AIDificult{
+    display: flex;
+    align-items: center;
+    position:absolute;
+    top:90px;
+    left:1000px;
+}
+
+.dificuldade{
+    padding:0;
+    font-size:22px;
+    color:white;
+    z-index: 3;
+    text-transform: uppercase;
+    font-family:'Tiny5',sans-serif;
+    appearance: none;
+}
+
+
+.User{
+    display: flex;
+    align-items: center;
+    position:absolute;
+    top:60px;
+    left:1590px;
+    z-index:3;
+}
+
+.Username{
+    padding:0;
+    font-size:22px;
+    color:white;
+    z-index: 3;
+    text-transform: uppercase;
+    font-family:'Tiny5',sans-serif;
+    appearance: none;
+}
+
+#Username{
+    background-color: transparent;
+    border-radius: 5px;
+    border:1px solid white;
+    color:white;
+    font-size:22px;
+    font-family: monospace;
+    width: 200px;
+}
+
+.Pass{
+    display: flex;
+    align-items: center;
+    position:absolute;
+    top:90px;
+    left:1590px;
+    z-index:3;
+}
+
+.Password{
+    padding:0;
+    font-size:22px;
+    color:white;
+    z-index: 3;
+    text-transform: uppercase;
+    font-family:'Tiny5',sans-serif;
+    appearance: none;
+}
+
+#Password{
+    margin: 5px 0;
+    background-color: transparent;
+    border-radius: 5px;
+    border:1px solid white;
+    color:white;
+    font-size:22px;
+    font-family: monospace;
+    width: 200px;
+}
+
+.primeirajogada{
+    display: flex;
+    align-items: center;
+    position:absolute;
+    top:160px;
+    left:240px;
+    z-index:3;
+}
+
+.primeiro{
+    padding:0;
+    font-size:22px;
+    color:white;
+    z-index: 3;
+    text-transform: uppercase;
+    font-family:'Tiny5',sans-serif;
+    appearance: none;
+}
+
+#primeiro{
+    outline:none;
+    margin-top: 5px;
+
+    padding:px;
+    font-size:22px;
+    z-index: 3;
+    text-transform: uppercase;
+    font-family:'Tiny5',sans-serif;
+    appearance: none;
+    background-color: transparent;
+    border-radius:5px;
+    border: 1px solid white;
+    margin-left: 5px;
+}
+
+
+#primeiro option{
+    padding: 10px;
+    background-color:black;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    border:1px solid white;
+    z-index:3;
+    text-transform: uppercase;
+    font-family:'Tiny5',sans-serif;
+}
+
+.laranja{color:orange;}
+.azul{color:blue}
