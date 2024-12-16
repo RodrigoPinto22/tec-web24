@@ -48,15 +48,26 @@
         </select>
     </div>
 
-    <div class="User">
-    <label for="Username" class="Username" >Username:</label>
-        <input type="text" id="Username" maxlength="16">
-    </div>
+    <form  id="login">
+        <div class="User">
+            <label for="Username" class="Username" >Username:</label>
+                <input type="text" id="Username" maxlength="16">
+            </div>
+            
+            <div class="Pass">
+                <label for="Password" class="Password" >Password:</label>
+            <input type="password" id="Password">
+            </div>
+        
+            <div class="Submit">
+            <label for="Submit" class="Submit">Submit</label>
+                <button type="submit" id="Submit" onclick="register(event)">Submit</button>
+            </div>
+            <div>
+                <button id="DaResetUser" onclick="logout()" >Logout</button>
+            </div>
+    </form>
     
-    <div class="Pass">
-    <label for="Password" class="Password">Password:</label>
-        <input type="password" id="Password">
-    </div>
 
     <div class="primeirajogada">
         <label for="primeiro" class="primeiro">Quem é o primeiro a jogar?</label>
@@ -68,53 +79,59 @@
     </div>
 
     <div id="main-container">
-        <button class="info" id="teste" onclick="start_game()">
+        <button class="info" id="teste" onclick="join()" >
             Start
         </button>
         <button class="info" id="resetButton" onclick="resetGame()">
             Reset
         </button>
         <div id="outside-board">
-            <div id="outside-cell-1" class="corner" >
+            <div id="outside-cell-0" class="corner" >
                 <div class="cell"></div>
             </div>
-            <div id="outside-cell-2" class="side">
+            <div id="outside-cell-1" class="side">
                 <div class="cell"></div>
             </div>
-            <div id="outside-cell-3" class="corner">
+            <div id="outside-cell-2" class="corner">
                 <div class="cell"></div>
             </div>
-            <div id="outside-cell-4" class="side">
+            <div id="outside-cell-3" class="side">
                 <div class="cell"></div>
             </div>
             <div id="outside-container" class="outside-cell">
-                <div id="middle-cell-1" class="corner">
+                <div id="middle-cell-0" class="corner">
                     <div class="cell"></div>
                 </div>
-                <div id="middle-cell-2" class="side">
+                <div id="middle-cell-1" class="side">
                     <div class="cell"></div>
                 </div>
-                <div id="middle-cell-3" class="corner">
+                <div id="middle-cell-2" class="corner">
                     <div class="cell"></div>
                 </div>
-                <div id="middle-cell-4" class="side">
+                <div id="middle-cell-3" class="side">
                     <div class="cell"></div>
                 </div>
                 <div id="middle-container" class="middle-cell">
-                    <div id="center-cell-1" class="corner">
+                    <div id="center-cell-0" class="corner">
                         <div class="cell"></div>
                     </div>
-                    <div id="center-cell-2" class="side">
+                    <div id="center-cell-1" class="side">
                         <div class="cell"></div>
                     </div>
-                    <div id="center-cell-3" class="corner">
+                    <div id="center-cell-2" class="corner">
                         <div class="cell"></div>
+                    </div>
+                    <div id="center-cell-3" class="side">
+                        <div class="cell"></div>
+                    </div>
+                    <div id="center" class="side">
+
                     </div>
                     <div id="center-cell-4" class="side">
                         <div class="cell"></div>
                     </div>
-                    <div id="center-cell-5" class="side">
-
+                    <div id="center-cell-5" class="corner">
+                        <div class="cell"></div>
                     </div>
                     <div id="center-cell-6" class="side">
                         <div class="cell"></div>
@@ -122,29 +139,23 @@
                     <div id="center-cell-7" class="corner">
                         <div class="cell"></div>
                     </div>
-                    <div id="center-cell-8" class="side">
-                        <div class="cell"></div>
-                    </div>
-                    <div id="center-cell-9" class="corner">
-                        <div class="cell"></div>
-                    </div>
                 </div>
+                <div id="middle-cell-4" class="side">
+                    <div class="cell"></div></div>
+                <div id="middle-cell-5" class="corner">
+                    <div class="cell"></div></div>
                 <div id="middle-cell-6" class="side">
                     <div class="cell"></div></div>
                 <div id="middle-cell-7" class="corner">
                     <div class="cell"></div></div>
-                <div id="middle-cell-8" class="side">
-                    <div class="cell"></div></div>
-                <div id="middle-cell-9" class="corner">
-                    <div class="cell"></div></div>
             </div>
+            <div id="outside-cell-4" class="side">
+                <div class="cell"></div></div>
+            <div id="outside-cell-5" class="corner">
+                <div class="cell"></div></div>
             <div id="outside-cell-6" class="side">
                 <div class="cell"></div></div>
             <div id="outside-cell-7" class="corner">
-                <div class="cell"></div></div>
-            <div id="outside-cell-8" class="side">
-                <div class="cell"></div></div>
-            <div id="outside-cell-9" class="corner">
                 <div class="cell"></div></div>
         </div>
     </div>

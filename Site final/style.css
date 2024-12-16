@@ -18,7 +18,6 @@ body {
 }
 
 #outside-board {
-    background: url('wood-texture.jpg') no-repeat center center;
     background-size: cover;
     border: solid 5px #8B4513;
     border-radius: 15px;
@@ -328,6 +327,31 @@ h2,button {
     font-family: monospace;
     width: 200px;
 }
+
+#Submit, #DaResetUser {
+    display: flex;
+    justify-content: center; /* Centraliza o texto horizontalmente */
+    align-items: center; /* Centraliza o texto verticalmente */
+    position: absolute;
+    background-color: transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid white;
+    width: 100px; /* Tamanho fixo para os botões */
+    height: 30px; /* Altura para os botões, garantindo que fiquem do mesmo tamanho */
+    font-size: 16px; /* Tamanho da fonte */
+}
+
+#Submit {
+    top: 90px;
+    right: 100px;
+}
+
+#DaResetUser {
+    top: 90px;
+    right: 0px;
+}
+
 
 .primeirajogada{
     display: flex;

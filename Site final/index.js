@@ -169,6 +169,122 @@ const three_seq = [
     ["center-cell-7", "center-cell-8", "center-cell-9"]
 ]
 
+let board = [
+    [null, null, null, null, null, null, null, null], // Outside square
+    [null, null, null, null, null, null, null, null], // Middle square
+    [null, null, null, null, null, null, null, null]  // Center square
+];
+
+LINK = "http://twserver.alunos.dcc.fc.up.pt:8008/"
+let nick = '';
+let password = '';
+let group = 21
+let size = 3
+
+function register(event) {
+
+    event.preventDefault();
+    nick = document.getElementById("Username").value;
+    password = document.getElementById("Password").value;
+
+    fetch(LINK + "register",{
+        method: 'POST',
+        body: JSON.stringify( { nick, password } )  
+      })
+        .then((response) => {
+            if(response.status === 200){
+                loggedIn = true
+            }
+          return response.json()
+        })
+        .then((json) => console.log(json))
+        .catch((error) => console.error('Error during fetch:', error));
+}
+
+function join() {
+    console.log(nick);
+    // Make sure nick, password, group, and size are defined before calling this function
+    fetch(LINK + "join", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nick, password, group, size })  
+    })
+        .then((response) => {
+            if (response.status === 200) {
+                return response.json();
+            } else {
+                throw new Error(`Failed to join: ${response.status}`);
+            }
+        })
+        .then((data) => {
+            console.log('Join successful:', data);
+            if (data.isJoined) { // Expect server to return an "isJoined" or similar key
+                isJoined = true;
+                checkGameStart(); // Check if the game can start
+            } else {
+                console.warn('Waiting for another player to join...');
+            }
+        })
+        .catch((error) => console.error('Error during fetch:', error));
+}
+
+function checkGameStart() {
+    // This function could poll the server or use a WebSocket to check if the game can start
+    const interval = setInterval(() => {
+        fetch(LINK + "checkGameStatus", { method: 'GET' })
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    throw new Error(`Failed to check game status: ${response.status}`);
+                }
+            })
+            .then((data) => {
+                if (data.gameReady) { // Expect server to indicate when the game is ready
+                    clearInterval(interval);
+                    console.log('Game is ready to start!');
+                    startGame(data); // Proceed to start the game
+                }
+            })
+            .catch((error) => console.error('Error during game status check:', error));
+    }, 1000); // Poll every second
+}
+
+function startGame(data) {
+    console.log('Starting game with data:', data);
+    // Add your game initialization logic here
+    start_game()
+}
+
+
+function logout() {
+
+    const nick = document.getElementById("Username").value;
+    const password = document.getElementById("Password").value;
+    const game = 21;
+
+    fetch(LINK + "leave", {
+        method: 'POST',
+        body: JSON.stringify({ nick, password, game })
+    })
+    .then((response) => {
+        if (response.status === 200) {
+            loggedIn = false; 
+            console.log("Logout successful.");
+        } else {
+            console.error("Logout failed with status:", response.status);
+        }
+        return response.json();
+    })
+    .then((json) => {
+        console.log("Server response:", json);
+    })
+    .catch((error) => {
+        console.error("Error during logout:", error);
+    });
+}
+
+
 function start_game() {
     const corners = document.getElementsByClassName("corner");
     const sides = document.getElementsByClassName("side");
@@ -194,11 +310,34 @@ function placePieces(event) {
     const piece = document.createElement("div");
     piece.className = "piece";
     piece.style.backgroundColor = color;
-    piece.classList.add(color)
+    piece.classList.add(color);
     clickedElement.appendChild(piece);
-    color === "red" ? red_cells.push(clickedElement.parentElement.id) : blue_cells.push(clickedElement.parentElement.id)
 
-    counter++;  
+    let str = clickedElement.parentElement.id; 
+    let num = str.split("-"); 
+
+    let cellNum = parseInt(num[2], 10); 
+    let square = num[0];
+
+    let y; 
+    if (square === "outside") {
+        y = 0; 
+    } else if (square === "middle") {
+        y = 1; 
+    } else if (square === "center") {
+        y = 2; 
+    } else {
+        console.error("Invalid square type:", square);
+        return;
+    }
+    
+    if (cellNum >= 0 && cellNum < board[0].length && y >= 0 && y < board.length) {
+        board[y][cellNum] = color; 
+        console.log(`Updated board at [${y}][${cellNum}] to ${color}`);
+    } else {
+        console.error(`Invalid indices for board update: x=${cellNum}, y=${y}`);
+    }
+    counter++;
 
     if (counter === 10) {
         const corners = document.getElementsByClassName("corner");
@@ -210,10 +349,12 @@ function placePieces(event) {
         for (let i = 0; i < sides.length; i++) {
             const side = sides[i];
             side.removeEventListener("click", placePieces);
-        } 
-        captureStage()
+        }
+        captureStage();
     }
 }
+
+
 
 function captureStage() {
     console.log("Capture Stage Initialized");
@@ -326,4 +467,3 @@ function resetGame() {
 }
 
 document.getElementById("resetButton").addEventListener("click", resetGame);
-
