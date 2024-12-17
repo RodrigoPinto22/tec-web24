@@ -178,8 +178,9 @@ let board = [
 LINK = "http://twserver.alunos.dcc.fc.up.pt:8008/"
 let nick = '';
 let password = '';
-let group = 21
-let size = 3
+let group = 21;
+let size = 3;
+let game = 0;
 
 function register(event) {
 
@@ -203,29 +204,56 @@ function register(event) {
 
 function join() {
     console.log(nick);
-    // Make sure nick, password, group, and size are defined before calling this function
+
     fetch(LINK + "join", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nick, password, group, size })  
     })
+    .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+            return response.json();
+        } else {
+            throw new Error(`Failed to join: ${response.status}`);
+        }
+    })
+    .then((data) => {
+        game = data["game"];
+        console.log('Join successful:', data);
+        if (data.isJoined) { // Expect server to return an "isJoined" or similar key
+            isJoined = true;
+            checkGameStart(); // Check if the game can start
+        } else {
+            console.warn('Waiting for another player to join...');
+            // Optionally, you can poll the server to check if the game is ready
+            pollGameStatus();
+        }
+    })
+    .catch((error) => console.error('Error during fetch:', error));
+}
+
+function pollGameStatus() {
+    const interval = setInterval(() => {
+        fetch(LINK + "gameStatus", { method: 'GET' })
         .then((response) => {
             if (response.status === 200) {
                 return response.json();
             } else {
-                throw new Error(`Failed to join: ${response.status}`);
+                throw new Error(`Failed to check game status: ${response.status}`);
             }
         })
         .then((data) => {
-            console.log('Join successful:', data);
-            if (data.isJoined) { // Expect server to return an "isJoined" or similar key
-                isJoined = true;
-                checkGameStart(); // Check if the game can start
+            if (data.gameReady) { // Expect server to indicate when the game is ready
+                clearInterval(interval);
+                console.log('Game is ready to start!');
+                startGame(data); // Proceed to start the game
             } else {
-                console.warn('Waiting for another player to join...');
+                console.log('Waiting for another player to join...');
             }
         })
-        .catch((error) => console.error('Error during fetch:', error));
+        .catch((error) => console.error('Error during game status check:', error));
+    }, 5000); // Poll every 5 seconds
 }
 
 function checkGameStart() {
@@ -256,34 +284,33 @@ function startGame(data) {
     start_game()
 }
 
-
 function logout() {
-
-    const nick = document.getElementById("Username").value;
-    const password = document.getElementById("Password").value;
-    const game = 21;
-
+  
     fetch(LINK + "leave", {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nick, password, game })
     })
     .then((response) => {
-        if (response.status === 200) {
-            loggedIn = false; 
-            console.log("Logout successful.");
+        if (response.ok) {
+            console.log(`Logout successful. Code: ${response.status} - ${response.statusText}`);
+            loggedIn = false;
+            return; 
         } else {
-            console.error("Logout failed with status:", response.status);
+            return response.text().then((text) => {
+                console.error("Logout failed. Server response:", text);
+                throw new Error(`Logout failed: ${response.status} - ${text}`);
+            });
         }
-        return response.json();
-    })
-    .then((json) => {
-        console.log("Server response:", json);
     })
     .catch((error) => {
-        console.error("Error during logout:", error);
+        console.error("Error during logout:", error.message);
+        console.error("Error details:", error);
+        if (error instanceof TypeError && error.message.includes('NetworkError')) {
+            console.error("NetworkError: Check CORS policy or network connectivity.");
+        }
     });
 }
-
 
 function start_game() {
     const corners = document.getElementsByClassName("corner");
