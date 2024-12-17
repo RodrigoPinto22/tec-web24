@@ -181,12 +181,14 @@ let password = '';
 let group = 21;
 let size = 3;
 let game = 0;
+let playersList = {}
 
 function register(event) {
 
     event.preventDefault();
     nick = document.getElementById("Username").value;
     password = document.getElementById("Password").value;
+    playersList[nick] = password;
 
     fetch(LINK + "register",{
         method: 'POST',
@@ -202,87 +204,120 @@ function register(event) {
         .catch((error) => console.error('Error during fetch:', error));
 }
 
-function join() {
-    console.log(nick);
+async function join() {
+    console.log(`Joining game with nick: ${nick}, group: ${group}, size: ${size}`);
 
-    fetch(LINK + "join", {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nick, password, group, size })  
-    })
-    .then((response) => {
-        console.log(response);
-        if (response.status === 200) {
-            return response.json();
-        } else {
-            throw new Error(`Failed to join: ${response.status}`);
+    try {
+        // Add a loading indicator or disable the join button here
+        const response = await fetch(LINK + "join", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                nick, 
+                password, 
+                group, 
+                size,
+                // Add game preference to match with waiting players
+                join: true 
+            }),
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`Failed to join: ${response.status} - ${errorText}`);
+            throw new Error(`Failed to join: ${response.status} - ${errorText}`);
         }
-    })
-    .then((data) => {
-        game = data["game"];
-        console.log('Join successful:', data);
-        if (data.isJoined) { // Expect server to return an "isJoined" or similar key
-            isJoined = true;
-            checkGameStart(); // Check if the game can start
-        } else {
-            console.warn('Waiting for another player to join...');
-            // Optionally, you can poll the server to check if the game is ready
-            pollGameStatus();
-        }
-    })
-    .catch((error) => console.error('Error during fetch:', error));
+
+        const data = await response.json();
+        console.log('Successfully joined:', data);
+        game = data.game; // Store the game ID globally
+
+        // Use update() instead of checkGameStatus() for Server-Sent Events
+        update(data.game);
+    } catch (error) {
+        console.error('Error during join:', error.message);
+        // Add error handling UI feedback here
+    }
 }
 
-function pollGameStatus() {
-    const interval = setInterval(() => {
-        fetch(LINK + "gameStatus", { method: 'GET' })
-        .then((response) => {
-            if (response.status === 200) {
-                return response.json();
-            } else {
-                throw new Error(`Failed to check game status: ${response.status}`);
-            }
-        })
-        .then((data) => {
-            if (data.gameReady) { // Expect server to indicate when the game is ready
-                clearInterval(interval);
-                console.log('Game is ready to start!');
-                startGame(data); // Proceed to start the game
-            } else {
-                console.log('Waiting for another player to join...');
-            }
-        })
-        .catch((error) => console.error('Error during game status check:', error));
-    }, 5000); // Poll every 5 seconds
-}
+async function checkGameStatus(gameId) {
+    console.log('Checking game updates for Game ID:', gameId);
 
-function checkGameStart() {
-    // This function could poll the server or use a WebSocket to check if the game can start
-    const interval = setInterval(() => {
-        fetch(LINK + "checkGameStatus", { method: 'GET' })
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json();
-                } else {
-                    throw new Error(`Failed to check game status: ${response.status}`);
+    const pollInterval = 2000; // Poll every 2 seconds
+
+    return new Promise((resolve, reject) => {
+        console.log('Starting game status check interval...');
+        const interval = setInterval(async () => {
+            try {
+                const response = await fetch(`${LINK}update?nick=${nick}&game=${gameId}`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (!response.ok) {
+                    console.error(`Failed to get updates: ${response.status}`);
+                    throw new Error(`Failed to get updates: ${response.status}`);
                 }
-            })
-            .then((data) => {
-                if (data.gameReady) { // Expect server to indicate when the game is ready
+
+                const statusData = await response.json();
+                console.log('Current game update:', statusData);
+
+                if (statusData.turn || statusData.phase) {
                     clearInterval(interval);
-                    console.log('Game is ready to start!');
-                    startGame(data); // Proceed to start the game
+                    console.log('Game is starting!');
+                    startGame(statusData); // Start the game
+                    resolve();
+                } else {
+                    console.log('Waiting for the second player to join...');
                 }
-            })
-            .catch((error) => console.error('Error during game status check:', error));
-    }, 1000); // Poll every second
+            } catch (error) {
+                clearInterval(interval);
+                console.error('Error while checking game updates:', error.message);
+                reject(error);
+            }
+        }, pollInterval);
+    });
 }
 
-function startGame(data) {
-    console.log('Starting game with data:', data);
-    // Add your game initialization logic here
+function update(gameId) {
+    console.log(`Listening for updates on game: ${gameId}`);
+
+    // Create an EventSource for the update endpoint
+    const eventSource = new EventSource(`${LINK}update?nick=${nick}&game=${gameId}`);
+
+    // Handle messages from the server
+    eventSource.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        console.log('Received update:', data);
+
+        // Check for game start conditions
+        if (data.turn || data.phase) {
+            console.log('Game has started!');
+            startGame(data); // Call your game start logic here
+
+            // Close the connection since game has started
+            eventSource.close();
+        } else {
+            console.log('Waiting for game to start...', data);
+        }
+    };
+
+    // Handle errors
+    eventSource.onerror = function (error) {
+        console.error('Error with EventSource:', error);
+        eventSource.close();
+    };
+}
+
+
+function startGame(gameData) {
+    console.log('Starting the game with data:', gameData);
+    // Your logic to initialize or launch the game, e.g.:
+    // renderGameBoard(gameData);
+    // setPlayerInfo(gameData.players);
     start_game()
 }
+
 
 function logout() {
   
@@ -380,8 +415,6 @@ function placePieces(event) {
         captureStage();
     }
 }
-
-
 
 function captureStage() {
     console.log("Capture Stage Initialized");
